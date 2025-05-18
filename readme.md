@@ -1,6 +1,6 @@
 A lightweight Kotlin library for caching suspend functions with TTL (Time-To-Live), optional size-based eviction (LRU/FIFO), and in-flight coalescing. Ideal for reducing unnecessary I/O, database calls, or expensive computations without pulling in a heavy cache dependency.
 
-# Installation
+# Installation (TBD)
 Add to your Gradle project:
 ```gradle
 plugins {
