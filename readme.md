@@ -15,8 +15,6 @@ repositories {
 
 dependencies {
   implementation("com.kishlaly.tools:coroutinecache:<latest-version>")
-  // For annotation-based DSL (KSP):
-  ksp("com.kishlaly.tools:coroutinecache-processor:<latest-version>")
 }
 ```
 
