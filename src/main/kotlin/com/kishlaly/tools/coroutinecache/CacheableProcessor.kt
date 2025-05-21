@@ -30,30 +30,20 @@ class CacheableProcessor(
         val pkg = func.packageName.asString()
         val original = func.simpleName.asString()
         val wrapper = "${original}Cached"
-
-        // Read annotation args
         val ann = func.annotations.first { it.shortName.asString() == "Cacheable" }
         val ttl = ann.arguments.first { it.name?.asString() == "ttlSeconds" }.value as Long
         val maxSize = ann.arguments.first { it.name?.asString() == "maxSize" }.value as Int
         val useLRU = ann.arguments.first { it.name?.asString() == "useLRU" }.value as Boolean
         val coalesce = ann.arguments.first { it.name?.asString() == "coalesce" }.value as Boolean
-
-        // Build parameters and return type
         val params = func.parameters.map { param ->
             val name = param.name!!.asString()
             val typeName = param.type.resolve().toTypeName()
             ParameterSpec(name, typeName)
         }
         val returnType = func.returnType!!.resolve().toTypeName()
-
-        // Determine key and value TypeNames
         val keyType = params.first().type
         val valueType = returnType
-
-        // Compose key expression
         val keyExpr = if (params.size == 1) params[0].name else "listOf(${params.joinToString { it.name }})"
-
-        // Generate the wrapper function file
         val fileSpec = FileSpec.builder(pkg, wrapper)
             .addFunction(
                 FunSpec.builder(wrapper)

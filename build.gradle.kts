@@ -1,12 +1,20 @@
+import java.util.Base64
+
 plugins {
     kotlin("jvm") version "1.9.10"
     id("com.google.devtools.ksp") version "1.9.10-1.0.13"
+    `java`
     `maven-publish`
-    signing
+    `signing`
 }
 
 group = "com.kishlaly.tools.coroutinecache"
 version = "1.0.0"
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
 
 repositories {
     mavenCentral()
@@ -28,4 +36,27 @@ tasks.test {
 }
 kotlin {
     jvmToolchain(17)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            pom {
+                name.set("CoroutineCache")
+                description.set("Fast coroutine cache for Kotlin")
+                url.set("https://github.com/s1ac2x1/CoroutineCache")
+            }
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
+signing {
+    val rawKey = System.getenv("GPG_SIGNING_KEY") ?: ""
+    val decodedKey = String(Base64.getDecoder().decode(rawKey))
+    useInMemoryPgpKeys(decodedKey, System.getenv("GPG_SIGNING_PASSPHRASE"))
+    sign(publishing.publications["mavenJava"])
 }
