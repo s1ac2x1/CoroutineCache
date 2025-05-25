@@ -1,23 +1,5 @@
 A lightweight Kotlin library for caching suspend functions with TTL (Time-To-Live), optional size-based eviction (LRU/FIFO), and in-flight coalescing. Ideal for reducing unnecessary I/O, database calls, or expensive computations without pulling in a heavy cache dependency.
 
-# Installation (TBD)
-Add to your Gradle project:
-```gradle
-plugins {
-  kotlin("jvm") version "1.9.10"
-  // If you want annotation processing
-  id("com.google.devtools.ksp") version "1.9.10-1.0.13"
-}
-
-repositories {
-  mavenCentral()
-}
-
-dependencies {
-  implementation("com.kishlaly.tools:coroutinecache:<latest-version>")
-}
-```
-
 # Quickstart
 
 ## Wrapper-Style DSL
